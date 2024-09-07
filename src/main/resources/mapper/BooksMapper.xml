@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yam.mapper.BooksMapper">
+  <resultMap id="BaseResultMap" type="cn.yam.domain.Books">
+    <!--@mbg.generated-->
+    <!--@Table books-->
+    <id column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="publisher" jdbcType="VARCHAR" property="publisher" />
+    <result column="year_published" jdbcType="INTEGER" property="yearPublished" />
+    <result column="status" jdbcType="OTHER" property="status" />
+    <result column="classification_id" jdbcType="INTEGER" property="classificationId" />
+    <result column="library_id" jdbcType="INTEGER" property="libraryId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    book_id, title, author, publisher, year_published, `status`, classification_id, library_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from books
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from books
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="book_id" keyProperty="bookId" parameterType="cn.yam.domain.Books" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into books (title, author, publisher, 
+      year_published, `status`, classification_id, 
+      library_id)
+    values (#{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, 
+      #{yearPublished,jdbcType=INTEGER}, #{status,jdbcType=OTHER}, #{classificationId,jdbcType=INTEGER}, 
+      #{libraryId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="book_id" keyProperty="bookId" parameterType="cn.yam.domain.Books" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into books
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="publisher != null">
+        publisher,
+      </if>
+      <if test="yearPublished != null">
+        year_published,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="classificationId != null">
+        classification_id,
+      </if>
+      <if test="libraryId != null">
+        library_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null">
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="yearPublished != null">
+        #{yearPublished,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=OTHER},
+      </if>
+      <if test="classificationId != null">
+        #{classificationId,jdbcType=INTEGER},
+      </if>
+      <if test="libraryId != null">
+        #{libraryId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.yam.domain.Books">
+    <!--@mbg.generated-->
+    update books
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null">
+        publisher = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="yearPublished != null">
+        year_published = #{yearPublished,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=OTHER},
+      </if>
+      <if test="classificationId != null">
+        classification_id = #{classificationId,jdbcType=INTEGER},
+      </if>
+      <if test="libraryId != null">
+        library_id = #{libraryId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.yam.domain.Books">
+    <!--@mbg.generated-->
+    update books
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      publisher = #{publisher,jdbcType=VARCHAR},
+      year_published = #{yearPublished,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=OTHER},
+      classification_id = #{classificationId,jdbcType=INTEGER},
+      library_id = #{libraryId,jdbcType=INTEGER}
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </update>
+
+<!--auto generated by MybatisCodeHelper on 2024-08-08-->
+  <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from books
+    </select>
+
+<!--auto generated by MybatisCodeHelper on 2024-08-08-->
+  <select id="selectByAuthorOrTitle" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from books
+    where author=#{author,jdbcType=VARCHAR} or title=#{title,jdbcType=VARCHAR}
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2024-08-08-->
+  <select id="selectAllByPublisher" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from books
+    where publisher=#{publisher,jdbcType=VARCHAR}
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2024-08-08-->
+  <select id="selectAllByYearPublished" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from books
+    where year_published=#{yearPublished,jdbcType=OTHER}
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2024-08-08-->
+  <select id="selectByStatus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from books
+    where `status`=#{status,jdbcType=OTHER}
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2024-08-11-->
+  <update id="updateStatus">
+    update books
+    set `status`=#{updatedStatus,jdbcType=OTHER}
+  </update>
+
+<!--auto generated by MybatisCodeHelper on 2024-08-11-->
+  <update id="updateStatusByBookId">
+    update books
+    set `status`=#{updatedStatus,jdbcType=OTHER}
+    where book_id=#{bookId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from books
+  </select>
+</mapper>
