@@ -15,6 +15,7 @@ import cn.yam.mapper.UsersMapper;
 import cn.yam.domain.Users;
 import cn.yam.service.UsersService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -72,8 +73,8 @@ public class UsersServiceImpl implements UsersService {
         Users users1 = userList.get(0);
         if (users1.getPassword().equals(users.getPassword()) && users1.getRole().equals(users.getRole())) {
             // 生成token
-//            String token = TokenUtils.genToken(users1.getUserId().toString(), users1.getPassword());
-//            users1.setToken(token);
+            String token = TokenUtils.genToken(users1.getUserId().toString(), users1.getPassword());
+            users1.setToken(token);
             return users1;
         }
         return null;

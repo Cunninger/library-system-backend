@@ -17,7 +17,10 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/users/login")
-                .excludePathPatterns("/v2/api-docs");
+                .excludePathPatterns("/users/register")
+                .excludePathPatterns("/v2/api-docs")
+                .excludePathPatterns("/swagger-ui/**")
+                .excludePathPatterns("/users/captcha");
         super.addInterceptors(registry);
     }
 

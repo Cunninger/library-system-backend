@@ -1,5 +1,6 @@
 package cn.yam.controller;
 
+import cn.yam.config.CaptchaConfig;
 import cn.yam.domain.Borrowrecords;
 import cn.yam.domain.Readers;
 import cn.yam.service.ReadersService;
@@ -7,15 +8,22 @@ import cn.yam.utils.TokenUtils;
 import cn.yam.vo.*;
 import cn.yam.domain.Users;
 import cn.yam.service.UsersService;
+import com.wf.captcha.GifCaptcha;
+import com.wf.captcha.utils.CaptchaUtil;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.apache.el.parser.Token;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (users)表控制层
@@ -33,6 +41,8 @@ public class UsersController {
 
     @Autowired
     private ReadersService readersService;
+    @Autowired
+    private CaptchaConfig captchaConfig;
 
 
     /**
@@ -99,6 +109,10 @@ public class UsersController {
     @ApiOperation("登录")
     @PostMapping("login")
     public ApiResponse<Users> login(@RequestBody @Valid LoginVo loginVo) {
+        String captcha = captchaConfig.getCaptchaMap().get("CAPTCHA");
+        if (!captcha.equals(loginVo.getCaptcha().toLowerCase())) {
+            return new ApiResponse<>(1001, "验证码错误", null);
+        }
         Users user = usersService.login(loginVo);
         if (user == null) {
             return new ApiResponse<>(400, "用户名或密码错误", null);
@@ -169,5 +183,26 @@ public class UsersController {
         String phone = keywords;
         return usersService.selectByUsernameOrEmailOrPhone(username, email, phone);
     }
+
+    /**
+     * 生成验证码
+     *
+     * @param request  请求对象
+     * @param response 响应对象
+     * @throws Exception 异常
+     */
+    @ApiOperation("生成验证码")
+    @GetMapping("/captcha")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 创建GifCaptcha对象
+        GifCaptcha gifCaptcha = new GifCaptcha(130, 48, 4);
+        // 输出验证码图片
+        CaptchaUtil.out(gifCaptcha, request, response);
+        // 获取验证码文本
+        String verCode = gifCaptcha.text().toLowerCase();
+
+        captchaConfig.getCaptchaMap().put("CAPTCHA", verCode);
+    }
+
 
 }

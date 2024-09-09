@@ -4,6 +4,7 @@ import cn.yam.domain.Users;
 import cn.yam.vo.LoginVo;
 import cn.yam.vo.PageResult;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface UsersService{
